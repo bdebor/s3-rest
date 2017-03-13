@@ -10,4 +10,9 @@ namespace AppBundle\Repository;
  */
 class MeetingRepository extends \Doctrine\ORM\EntityRepository
 {
+	public function findAllApi(){
+		return $this->createQueryBuilder('m')
+			->getQuery()
+			->getArrayResult();
+	}
 }

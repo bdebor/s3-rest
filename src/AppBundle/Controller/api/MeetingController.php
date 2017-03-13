@@ -5,29 +5,31 @@ namespace AppBundle\Controller\api;
 use AppBundle\Entity\Meeting;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;use Symfony\Component\HttpFoundation\Request;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Meeting controller.
  *
- * @Route("api/meeting")
+ * @Route("api/meetings")
  */
 class MeetingController extends Controller
 {
     /**
      * Lists all meeting entities.
      *
-     * @Route("/", name="meeting_index")
+     * @Route("/", name="api_meeting_index")
      * @Method("GET")
      */
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
 
-        $meetings = $em->getRepository('AppBundle:Meeting')->findAll();
+        $meetings = $em->getRepository('AppBundle:Meeting')->findAllApi();
+        $meetings = ['meetings' => $meetings];
 
-        return $this->render('meeting/index.html.twig', array(
-            'meetings' => $meetings,
-        ));
+        return new JsonResponse($meetings);
     }
 }
